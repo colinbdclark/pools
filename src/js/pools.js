@@ -1,6 +1,8 @@
 (function () {
     "use strict";
 
+    flock.init();
+
     fluid.defaults("colin.pools", {
         gradeNames: "fluid.viewComponent",
 
@@ -10,10 +12,20 @@
                 container: "{that}.dom.midiSelector"
             },
 
+            band: {
+                type: "colin.pools.band"
+            }
         },
 
         selectors: {
             midiSelector: "#midi-selector-container"
+        },
+
+        listeners: {
+            onCreate: [
+                "{flock.enviro}.play()",
+                "{that}.band.play()"
+            ]
         }
     });
 
@@ -26,7 +38,8 @@
                 createOnEvent: "afterConnectionOpen",
                 options: {
                     components: {
-                        connection: "{midiConnector}.connection"
+                        connection: "{midiConnector}.connection",
+                        synthContext: "{pools}.band"
                     }
                 }
             }
