@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pools</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="node_modules/flocking/demos/shared/css/demos.css" />
+
+        <script src="node_modules/flocking/dist/flocking-all.js"></script>
+        <script src="node_modules/flocking/src/ui/selectbox/js/selectbox.js"></script>
+        <script src="node_modules/flocking/src/ui/midi/midi-input-selector/js/midi-input-selector.js"></script>
+        <script src="node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js"></script>
+
+        <script src="src/js/pools.js"></script>
+    </head>
+
+    <body>
+        <h1>Pools</h1>
+
+        <main>
+            <div id="midi-selector-container"></div>
+        </main>
+
+        <script>
+            window.pools = colin.pools("main");
+        </script>
+    </body>
+</html>

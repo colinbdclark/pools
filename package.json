@@ -1,0 +1,14 @@
+{
+    "name": "pools",
+    "version": "0.0.1",
+    "description": "Instruments for Pierre Tremblay's Pools",
+    "author": "Colin Clark",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/colinbdclark/pools.git"
+    },
+    "dependencies": {
+        "flocking": "colinbdclark/flocking"
+    }
+}
