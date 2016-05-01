@@ -21,7 +21,7 @@
                 add: 1.5
             },
             source: {
-                id: "carrier",
+                id: "dust",
                 ugen: "flock.ugen.dust",
                 density: {
                     ugen: "flock.ugen.lfNoise",
@@ -29,12 +29,11 @@
                         interpolation: "linear"
                     },
                     mul: 2,
-                    add: 2,
-
+                    add: 2
                 },
                 rate: "audio"
             }
         }
     });
-    
+
 }());

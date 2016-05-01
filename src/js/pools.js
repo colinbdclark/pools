@@ -28,30 +28,4 @@
             ]
         }
     });
-
-    fluid.defaults("colin.pools.midiConnector", {
-        gradeNames: "flock.ui.midiConnector",
-
-        components: {
-            midiController: {
-                type: "flock.midi.controller",
-                createOnEvent: "afterConnectionOpen",
-                options: {
-                    components: {
-                        connection: "{midiConnector}.connection",
-                        synthContext: "{pools}.band"
-                    }
-                }
-            }
-        },
-
-        listeners: {
-            message: {
-                "this": "console",
-                method: "log",
-                args: ["{arguments}.0"]
-            }
-        }
-    });
-
 }());
