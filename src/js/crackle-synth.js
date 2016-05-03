@@ -5,6 +5,7 @@
         gradeNames: "flock.synth",
 
         synthDef: {
+            id: "filter",
             ugen: "flock.ugen.filter.moog",
             cutoff: {
                 ugen: "flock.ugen.lfNoise",
@@ -28,11 +29,17 @@
                     options: {
                         interpolation: "linear"
                     },
-                    mul: 2,
-                    add: 2
+                    mul: 0,
+                    add: {
+                        ugen: "flock.ugen.value",
+                        rate: "control",
+                        value: 0,
+                        mul: 1
+                    }
                 },
                 rate: "audio"
-            }
+            },
+            mul: 0.0
         }
     });
 
