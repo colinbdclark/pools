@@ -7,7 +7,31 @@
             "colin.pools.dropletMap",
             "colin.pools.keyboardMap",
             "flock.midi.controller"
-        ]
+        ],
+
+        controlMap: {
+            // Master volume.
+            7: [
+                {
+                    synth: "crackle",
+                    input: "flocking-out.mul",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 64
+                    }
+                },
+                {
+                    synth: "droplet",
+                    input: "flocking-out.mul",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 32
+                    }
+                }
+            ]
+        }
     });
 
     fluid.defaults("colin.pools.crackleMap", {
@@ -190,33 +214,70 @@
     fluid.defaults("colin.pools.keyboardMap", {
         gradeNames: "fluid.component",
 
+        controlMap: {
+            1: [
+                {
+                    synth: "keyboard",
+                    input: "centrePosPhase.reset.source",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 127
+                    }
+                }
+            ],
+
+            25: {
+                synth: "keyboard",
+                input: "envelope.mul",
+                valuePath: "source",
+                transform: {
+                    ugen: "flock.ugen.math",
+                    div: 127
+                }
+            },
+
+            73: {
+                synth: "keyboard",
+                input: "granulator.dur",
+                valuePath: "source.source",
+                transform: {
+                    ugen: "flock.ugen.passThrough",
+                    source: {
+                        ugen: "flock.ugen.math",
+                        div: 64
+                    },
+                    add: 0.01
+                }
+            },
+
+            75: {
+                synth: "keyboard",
+                input: "trigger.freq",
+                transform: {
+                    mul: 0.5
+                }
+            }
+        },
         noteMap: {
             noteOn: [
                 {
                     synth: "keyboard",
-                    input: "carrier.freq.mul",
-                    valuePath: "note",
+                    input: "granulator.speed",
+                    valuePath: "source.source",
                     transform: {
-                        ugen: "flock.ugen.midiFreq"
+                        ugen: "flock.ugen.passThrough",
+                        source: {
+                            ugen: "flock.ugen.math",
+                            div: 127
+                        },
+                        mul: 0.5,
+                        add: 0.5
                     }
                 },
                 {
                     synth: "keyboard",
-                    input: "carrier.freq.add.mul",
-                    valuePath: "note",
-                    transform: {
-                        ugen: "flock.ugen.midiFreq",
-                        mul: 0.1
-                    }
-                },
-                {
-                    synth: "keyboard",
-                    input: "carrier.freq.add.add",
-                    valuePath: "note",
-                    transform: {
-                        ugen: "flock.ugen.midiFreq",
-                        mul: 0.1
-                    }
+                    input: "centrePosPhase.trigger"
                 },
                 {
                     synth: "keyboard",
@@ -224,44 +285,16 @@
                 }
             ],
 
-            noteOff: {
-                synth: "keyboard",
-                input: "envelope.gate",
-                value: 0
-            },
-
-            velocity: [
+            noteOff: [
                 {
                     synth: "keyboard",
-                    input: "carrier.freq.freq.mul",
-                    transform: {
-                        mul: 0.025
-                    }
+                    input: "centrePosPhase.trigger",
+                    value: 0
                 },
                 {
                     synth: "keyboard",
-                    input: "carrier.freq.freq.add",
-                    transform: {
-                        mul: 0.025
-                    }
-                },
-                {
-                    synth: "keyboard",
-                    input: "carrier.freq.freq.freq",
-                    valuePath: "source",
-                    transform: {
-                        ugen: "flock.ugen.math",
-                        div: 64
-                    }
-                },
-                {
-                    synth: "keyboard",
-                    input: "carrier.freq.add.freq",
-                    valuePath: "source",
-                    transform: {
-                        ugen: "flock.ugen.math",
-                        div: 64
-                    }
+                    input: "envelope.gate",
+                    value: 0
                 }
             ]
         }
