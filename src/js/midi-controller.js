@@ -2,7 +2,16 @@
     "use strict";
 
     fluid.defaults("colin.pools.midiController", {
-        gradeNames: "flock.midi.controller",
+        gradeNames: [
+            "colin.pools.crackleMap",
+            "colin.pools.dropletMap",
+            "colin.pools.keyboardMap",
+            "flock.midi.controller"
+        ]
+    });
+
+    fluid.defaults("colin.pools.crackleMap", {
+        gradeNames: "fluid.component",
 
         controlMap: {
             20: {
@@ -52,13 +61,26 @@
                 }
             },
 
-            5: {
-                synth: "crackle",
-                input: "filter.cutoff.freq",
-                transform: {
-                    mul: 10
+            5: [
+                {
+                    synth: "crackle",
+                    input: "filter.resonance.mul",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 32
+                    }
+                },
+                {
+                    synth: "crackle",
+                    input: "filter.resonance.add",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 32
+                    }
                 }
-            },
+            ],
 
             18: [
                 {
@@ -75,6 +97,170 @@
                     transform: {
                         mul: 100,
                         add: 31
+                    }
+                }
+            ]
+        }
+    });
+
+    fluid.defaults("colin.pools.dropletMap", {
+        gradeNames: "fluid.component",
+
+        controlMap: {
+            28: {
+                synth: "droplet",
+                input: "envelope.mul",
+                valuePath: "source",
+                transform: {
+                    ugen: "flock.ugen.math",
+                    div: 2000
+                }
+            },
+
+            29: {
+                synth: "droplet",
+                input: "sequencer.freq",
+                valuePath: "source",
+                transform: {
+                    ugen: "flock.ugen.math",
+                    div: 2
+                }
+            },
+
+            30: {
+                synth: "droplet",
+                input: "gateRandomizer.freq",
+                valuePath: "source",
+                transform: {
+                    ugen: "flock.ugen.math",
+                    div: 10
+                }
+            },
+
+            31: [
+                {
+                    synth: "droplet",
+                    input: "gateRandomizer.mul",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 2
+                    }
+                },
+                {
+                    synth: "droplet",
+                    input: "gateRandomizer.add",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 20
+                    }
+                }
+            ],
+
+            74: {
+                synth: "droplet",
+                input: "gate.width",
+                valuePath: "source",
+                transform: {
+                    ugen: "flock.ugen.math",
+                    div: 128
+                }
+            },
+
+            71: {
+                synth: "droplet",
+                input: "sequencer.add",
+                transform: {
+                    sub: 64
+                }
+            },
+
+            85: {
+                synth: "droplet",
+                input: "envelope.timeScale",
+                transform: {
+                    mul: 0.25,
+                    add: 0.1
+                }
+            }
+        }
+    });
+
+    fluid.defaults("colin.pools.keyboardMap", {
+        gradeNames: "fluid.component",
+
+        noteMap: {
+            noteOn: [
+                {
+                    synth: "keyboard",
+                    input: "carrier.freq.mul",
+                    valuePath: "note",
+                    transform: {
+                        ugen: "flock.ugen.midiFreq"
+                    }
+                },
+                {
+                    synth: "keyboard",
+                    input: "carrier.freq.add.mul",
+                    valuePath: "note",
+                    transform: {
+                        ugen: "flock.ugen.midiFreq",
+                        mul: 0.1
+                    }
+                },
+                {
+                    synth: "keyboard",
+                    input: "carrier.freq.add.add",
+                    valuePath: "note",
+                    transform: {
+                        ugen: "flock.ugen.midiFreq",
+                        mul: 0.1
+                    }
+                },
+                {
+                    synth: "keyboard",
+                    input: "envelope.gate"
+                }
+            ],
+
+            noteOff: {
+                synth: "keyboard",
+                input: "envelope.gate",
+                value: 0
+            },
+
+            velocity: [
+                {
+                    synth: "keyboard",
+                    input: "carrier.freq.freq.mul",
+                    transform: {
+                        mul: 0.025
+                    }
+                },
+                {
+                    synth: "keyboard",
+                    input: "carrier.freq.freq.add",
+                    transform: {
+                        mul: 0.025
+                    }
+                },
+                {
+                    synth: "keyboard",
+                    input: "carrier.freq.freq.freq",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 64
+                    }
+                },
+                {
+                    synth: "keyboard",
+                    input: "carrier.freq.add.freq",
+                    valuePath: "source",
+                    transform: {
+                        ugen: "flock.ugen.math",
+                        div: 64
                     }
                 }
             ]
