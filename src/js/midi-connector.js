@@ -15,14 +15,6 @@
                     }
                 }
             }
-        },
-
-        listeners: {
-            message: {
-                "this": "console",
-                method: "log",
-                args: ["{arguments}.0"]
-            }
         }
     });
 }());
